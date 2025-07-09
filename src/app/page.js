@@ -6,9 +6,16 @@ export default function Home() {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen space-y-6">
+      <img
+        src="/products.jpg"
+        alt="Product Image"
+        className="w-80 h-auto rounded shadow-md"
+      />
+
       <h1 className="text-4xl font-bold text-green-700">
         Welcome to the Products Store
       </h1>
+
       <button
         onClick={() => router.push('/products')}
         className="bg-green-600 text-white px-6 py-3 rounded-md hover:bg-green-700 transition"
