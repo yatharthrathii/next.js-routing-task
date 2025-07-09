@@ -1,23 +1,25 @@
 import { NextResponse } from 'next/server';
-import { signToken } from '@/utils/auth';
+import { SignJWT } from 'jose';
+
+const secret = new TextEncoder().encode('abcde');
 
 export async function POST(req) {
   const { email, password } = await req.json();
 
-  if (email === 'test@example.com' && password === '123456') {
-    const token = await signToken({ email });
+  if (email === 'admin@example.com' && password === 'password') {
+    const token = await new SignJWT({ email })
+      .setProtectedHeader({ alg: 'HS256' })
+      .setExpirationTime('2h')
+      .sign(secret);
 
-    const response = NextResponse.json({ success: true });
-    response.cookies.set('token', token, {
+    const res = NextResponse.json({ success: true });
+    res.cookies.set('token', token, {
       httpOnly: true,
-      secure: true,
-      sameSite: 'lax',
       path: '/',
-      maxAge: 60 * 60, 
     });
 
-    return response;
+    return res;
   }
 
-  return NextResponse.json({ error: 'Invalid credentials' }, { status: 401 });
+  return NextResponse.json({ success: false }, { status: 401 });
 }
