@@ -1,24 +1,26 @@
-import Link from 'next/link';
+export const revalidate = 60; 
 
-export default function ProductsPage() {
+const ProductsPage = async () => {
+    const res = await fetch("https://dummyjson.com/products", {
+        next: { revalidate: 60 }
+    });
+
+    const data = await res.json();
+
     return (
-        <div className="mt-5">
-            <h2 className="text-2xl font-semibold mb-4 text-green-700">Products Page</h2>
-            <ul className="space-y-2">
-                {[...Array(10)].map((_, index) => {
-                    const id = index + 1;
-                    return (
-                        <li key={id}>
-                            <Link
-                                href={`/products/${id}`}
-                                className="text-green-600 hover:underline"
-                            >
-                                View Product {id}
-                            </Link>
-                        </li>
-                    );
-                })}
+        <div>
+            <h1 className="text-2xl font-bold">Products</h1>
+            <ul className="space-y-2 mt-4">
+                {data.products.map((product) => (
+                    <li key={product.id}>
+                        <a href={`/products/${product.id}`} className="text-blue-600 underline">
+                            {product.title}
+                        </a>
+                    </li>
+                ))}
             </ul>
         </div>
     );
-}
+};
+
+export default ProductsPage;
