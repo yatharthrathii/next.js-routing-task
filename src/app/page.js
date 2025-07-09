@@ -1,27 +1,12 @@
-'use client'
-import { useRouter } from 'next/navigation';
+export const metadata = {
+  title: "This is Homepage",
+  description: "Welcome to the homepage of our blog!",
+};
 
-export default function Home() {
-  const router = useRouter();
-
+export default function HomePage() {
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen space-y-6">
-      <img
-        src="/products.jpg"
-        alt="Product Image"
-        className="w-80 h-auto rounded shadow-md"
-      />
-
-      <h1 className="text-4xl font-bold text-green-700">
-        Welcome to the Products Store
-      </h1>
-
-      <button
-        onClick={() => router.push('/products')}
-        className="bg-green-600 text-white px-6 py-3 rounded-md hover:bg-green-700 transition"
-      >
-        View Products
-      </button>
+    <div className="min-h-screen flex items-center justify-center text-center">
+      <h1 className="text-3xl font-bold text-green-700">Welcome to the Homepage</h1>
     </div>
   );
 }

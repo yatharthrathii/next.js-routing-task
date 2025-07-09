@@ -1,21 +1,22 @@
-export const revalidate = 60;
+export async function generateMetadata({ params }) {
+  const res = await fetch(`https://dummyjson.com/products/${params.id}`);
+  const product = await res.json();
 
-const ProductDetails = async ({ params }) => {
-  const { id } = params;
+  return {
+    title: `${product.title} - Products Store`,
+    description: product.description,
+  };
+}
 
-  const res = await fetch(`https://dummyjson.com/products/${id}`, {
-    next: { revalidate: 60 },
-  });
-
+export default async function ProductDetailPage({ params }) {
+  const res = await fetch(`https://dummyjson.com/products/${params.id}`);
   const product = await res.json();
 
   return (
-    <div>
-      <h1 className="text-2xl font-bold mb-2">{product.title}</h1>
-      <p>{product.description}</p>
-      <p className="text-green-700 mt-2 font-semibold">Price: ${product.price}</p>
+    <div className="p-6">
+      <h1 className="text-2xl font-bold text-green-700">{product.title}</h1>
+      <p className="mt-2">{product.description}</p>
+      <p className="mt-1 font-semibold">Price: ${product.price}</p>
     </div>
   );
-};
-
-export default ProductDetails;
+}
